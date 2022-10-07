@@ -1,0 +1,44 @@
+<div class="signup_form">
+    <div class="form">
+        <div class="close" onclick="signupModal();">&times;</div>
+        <div class="text">
+            <h1>Регистрация</h1>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="text" name="tg_username" placeholder="Username от телеграма" required>
+            <input type="password" name="password1" placeholder="Пароль" required>
+            <input type="password" name="password2" placeholder="Повторите пароль" required>
+            <span class="error text-danger d-none">Пароль не совпадает</span>
+            <input type="submit" value="Зарегистрировать">
+        </form>
+    </div>
+</div>
+
+<div class="signin_form">
+    <div class="form">
+        <div class="close" onclick="signinModal();">&times;</div>
+        <div class="text">
+            <h1>Вход</h1>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password1" placeholder="Пароль" required>
+            <span class="error1 text-danger d-none">Пароль или Логин неправелный</span>
+            <span class="error2 text-danger d-none">Такого юзера нету</span>
+            <input type="submit" value="Вход">
+        </form>
+    </div>
+</div>
+
+<div class="order_success_form">
+    <div class="form">
+        <div class="close" onclick="location.reload();">&times;</div>
+        <div class="text">
+            <h2>Статус отправки <i class="fa-solid fa-circle-check text-success"></i></h2>
+            <span class="text-muted">Ожидайте ответа, мы скоро свяжемся с вами</span>
+        </div>
+    </div>
+</div>

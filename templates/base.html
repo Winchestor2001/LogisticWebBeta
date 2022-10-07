@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <!-- Bootstrap link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <!-- Boxicon link -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <!-- Fontawesom link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Owl carusel css -->
+    <link
+      rel="stylesheet"
+      href="{% static 'OwlCarousel2-2.3.4/dist/assets/owl.carousel.css' %}"
+    />
+
+    {% block title %} {% endblock %}
+  </head>
+
+  <body>
+    <!-- MODAL WINDOW -->
+
+    {% include 'includes/modal_window.html' %}
+
+    <!-- END MODAL WINDOW -->
+
+    <div class="right_toper_btn">
+      <a href="#"><i class="fa-solid fa-circle-up"></i></a>
+    </div>
+
+    {% block content %} {% endblock %}
+
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
+    <script src="{% static 'OwlCarousel2-2.3.4/dist/owl.carousel.js' %}"></script>
+    <script src="{% static 'js/carusel.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+      let form = document.querySelector(".signup_form .form form");
+      let form2 = document.querySelector(".signin_form .form form");
+      let form_error = document.querySelector(".form .error");
+      let form2_error1 = document.querySelector(".signin_form .form .error1");
+      let form2_error2 = document.querySelector(".signin_form .form .error2");
+      let send_order_form = document.querySelector(".send_order_form");
+
+      form.onsubmit = (e) => {
+        e.preventDefault();
+        username = form.querySelector("input[name=username]").value;
+        tg_username = form.querySelector("input[name=tg_username]").value;
+        pass1 = form.querySelector("input[name=password1]").value;
+        pass2 = form.querySelector("input[name=password2]").value;
+        if (pass1 != pass2) {
+          form_error.classList.remove("d-none");
+        } else {
+          form_error.classList.add("d-none");
+          console.log(username, tg_username, pass1, pass2);
+          items = {
+            username: username,
+            tg_username: tg_username,
+            password1: pass1,
+          };
+          $.ajax({
+            url: "{% url 'registration_modal' %}",
+            type: "get",
+            data: items,
+            success: function (data) {
+              console.log("true");
+            },
+          });
+        }
+      };
+      form2.onsubmit = (e) => {
+        e.preventDefault();
+        username = form2.querySelector("input[name=username]").value;
+        pass1 = form2.querySelector("input[name=password1]").value;
+        items = { username: username, password1: pass1 };
+        $.ajax({
+          url: "{% url 'auth_modal' %}",
+          type: "get",
+          data: items,
+          success: function (data) {
+            if (data == "no_user") {
+              form2_error1.classList.remove("d-none");
+            } else if (data == "incorrect") {
+              form2_error2.classList.remove("d-none");
+            } else if (data == "correct") {
+              location.reload();
+            } else {
+              form2_error1.classList.add("d-none");
+              form2_error2.classList.add("d-none");
+            }
+          },
+        });
+      };
+      send_order_form.onsubmit = (e) => {
+        e.preventDefault();
+        country = send_order_form.querySelector("select[name=country]").value;
+        country_index = send_order_form.querySelector(
+          "input[name=country_index]"
+        ).value;
+        price = send_order_form.querySelector("input[name=price]").value;
+        order_width = send_order_form.querySelector(
+          "input[name=order_width]"
+        ).value;
+        city = send_order_form.querySelector("input[name=city]").value;
+        order_weight = send_order_form.querySelector(
+          "input[name=order_weight]"
+        ).value;
+        order_weight_opt = send_order_form.querySelector(
+          "select[name=order_weight_opt]"
+        ).value;
+        order_lenght = send_order_form.querySelector(
+          "input[name=order_lenght]"
+        ).value;
+        order_height = send_order_form.querySelector(
+          "input[name=order_height]"
+        ).value;
+        items = {
+          country: country,
+          country_index: country_index,
+          price: price,
+          order_width: order_width,
+          city: city,
+          order_weight: order_weight,
+          order_weight_opt: order_weight_opt,
+          order_lenght: order_lenght,
+          order_height: order_height,
+        };
+        $.ajax({
+          url: "{% url 'get_and_send_ti_admin' %}",
+          type: "get",
+          data: items,
+          success: function (data) {
+            console.log(data);
+          },
+        });
+      };
+
+      function productAbout(data){
+        tag = `<div class="product_about_header">
+                            <div class="border-bottom  d-flex justify-content-between align-items-end p-3">
+                                <h1 class="fw-bold">${data['title']}</h1>
+                                <p>${data['logistic_days']}</p>
+                            </div>
+                            <div class=" p-3 fw-semibold">
+                                <p>${data['description']}</p>
+                            </div>
+                        </div>
+                        <div class="product_about_body border-bottom p-3">
+                            <ul class="row">
+                                <div class="col-12 col-sm-6">
+                                    <li class="fw-bold">Максимальный вес</li>
+                                    <p>${data['max_weight']}</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <li class="fw-bold">Максимальный размер</li>
+                                    <p>${data['max_size']}</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <li class="fw-bold">Частота отправлений</li>
+                                    <p>${data['departure_frequency']}</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <li class="fw-bold">Объемный вес учитывается</li>
+                                    <p>${data['volume_weight']}</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <li class="fw-bold">Средние сроки доставки</li>
+                                    <p>${data['logistic_days']}</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <li class="fw-bold">Отслеживание посылки</li>
+                                    <p>${data['traking_link']}</p>
+                                </div>
+                            </ul>
+
+                        </div>
+                        <div class="product_about_footer p-3">
+                            <p>${data['exception']}</p>
+                            <div class="row mt-5">
+                                <div class="col-12 col-sm-6">
+                                    <p>Приемка посылки на складе</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <h6 class="fw-bold text-end">БЕСПЛАТНО</h6>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <p>Стандратная упаковка</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <h6 class="fw-bold text-end">БЕСПЛАТНО</h6>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <p>Объединение посылок</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <h6 class="fw-bold text-end">БЕСПЛАТНО</h6>
+                                </div>
+                            </div>
+                        </div>`
+                        return tag
+      }
+
+      let logist_type_card = document.querySelectorAll(".logist_type_card");
+      let product_about = document.querySelector(".product_about");
+      logist_type_card.forEach((item) => {
+        item.onclick = () => {
+          let logist_type_card_attr = item.getAttribute("data-order_id");
+          $.ajax({
+            url: "{% url 'get_order_data' %}",
+            type: "get",
+            data: { pk: logist_type_card_attr },
+            success: function (data) {
+              let tag = productAbout(data);
+              product_about.innerHTML = tag
+            },
+          });
+        };
+      });
+    </script>
+  </body>
+</html>

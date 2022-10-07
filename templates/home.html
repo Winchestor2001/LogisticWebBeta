@@ -1,0 +1,578 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Logistic</title>
+{% endblock %}
+
+
+{% block content %}
+
+<section class="container-fluid p-0 main_container">
+    <section class="header">
+        <div class="header_menu">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <a class="navbar-brand fw-bold" href="{% url 'home' %}">Logistic</a>
+                    <button class="navbar-toggler border-0 " type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-between w-100">
+                            <div class="d-block d-lg-flex align-items-center">
+                                <li class="nav-item menu_li">
+                                    <a class="nav-link " aria-current="page" href="#about_section">О нас</a>
+                                </li>
+                                <li class="nav-item menu_li">
+                                    <a class="nav-link" href="#">Тех.поддержка</a>
+                                </li>
+                            </div>
+                            <div class="d-block d-lg-flex align-items-center">
+                                {% if request.user.is_authenticated %}
+                                <li class="nav-item menu_li">
+                                    <a class="nav-link" aria-current="page"
+                                       href="{% url 'logout_user' %}">Выйти</a>
+                                </li>
+                                <li class="nav-item menu_li me-2">
+                                    Имя:
+                                    <span class="fw-bold text-success text-uppercase">{{ request.user.username }}</span>
+                                </li>
+                                {% else %}
+                                <li class="nav-item menu_li">
+                                    <a onclick="signinModal();" class="nav-link" aria-current="page"
+                                       href="#">Вход</a>
+                                </li>
+                                <li class="nav-item menu_li">
+                                    <a onclick="signupModal();" class="nav-link" aria-current="page"
+                                       href="#">Регистрация</a>
+                                </li>
+                                {% endif %}
+                                <li class="nav-item menu_li">
+                                    <a class="nav-link fs-5 first_color" href="tel:{{social_links.phone_number}}">{{social_links.phone_number}}</a>
+                                </li>
+                                <li class="nav-item menu_li">
+                                    <a class="nav-link" href=""><i
+                                            class="fa-brands fa-telegram fa-2x telegram"></i></a>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="header_content">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-12  col-md-6 col-lg-6  pl-50 pt-5 pt-lg-0">
+                        <h1 class="header_h1 fw-semibold second_color">Доставка из США <span
+                                class="first_color d-block mt-3 fw-bold">от $11.99</span></h1>
+                        <p class="fs-14 black fw-semibold pe-5 me-5 py-4">Помогаем с покупками в Америке и привозим
+                            их к вам домой быстро и недорого.</p>
+                        <button class="header_btn mt-3"><a href="#form_for_order">Заказать доставку из США</a></button>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6   gif_col ps-5 ps-md-0 pt-3 mt-3">
+                        <img class="img-fluid gif" src="{% static 'img/71216-delivery-guy.gif' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="aboutUs mt-100">
+        <div class="container">
+            <div class="owl-carousel owl-theme">
+                <div class="item carusel_item_1">
+                    <div class="row px-3 py-5">
+                        <div class="col-12 col-lg-5">
+                            <img class="img-fluid d-none d-lg-block" src="{% static 'img/us-buyers.svg' %}" alt="">
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <h1>Lorem ipsum dolor sit amet consectetur.</h1>
+                            <p class="my-5">
+                                С нами вы сможете продавать свои товары на Amazon, eBay, Etsy и в других
+                                американских магазинах с
+                                доставкой за 2–3 дня. Просто перешлите ваши товары на наш склад в Делавэре, а мы
+                                будем
+                                отправлять их вашим покупателям.
+                            </p>
+                            <button class="aboutUs_btn mt-3"><a href="#form_for_order">Заказать доставку из США</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="item carusel_item_2">
+                    <div class="row px-3 py-5">
+                        <div class="col-12 col-lg-5">
+                            <img class="img-fluid d-none d-lg-block" src="{% static 'img/iherb.png' %}" alt="">
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <h1>Lorem ipsum dolor sit amet consectetur.</h1>
+                            <p class="my-5">
+                                С нами вы сможете продавать свои товары на Amazon, eBay, Etsy и в других
+                                американских магазинах с
+                                доставкой за 2–3 дня. Просто перешлите ваши товары на наш склад в Делавэре, а мы
+                                будем
+                                отправлять их вашим покупателям.
+                            </p>
+                            <button class="aboutUs_btn mt-3"><a href="#form_for_order">Заказать доставку из США</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="object mt-100" id="about_section">
+        <div class="container-lg container">
+            <h3 class="text-center first_color fw-bold">МЫ СОВЕРШИМ ПОКУПКУ <br> ОТ ВАШЕГО ИМЕНИ</h3>
+            <div class="row object_row">
+                <img class="vector d-none d-lg-block" src="{% static 'img/Vector_141_4.svg' %}" alt="">
+                <div class="col-12 col-sm-6 text-center text-lg-start col-lg-3 pt-lg-3 border-bottom">
+                    <img class="img-fluid object_img mt-5" src="img/corporate-website-rg.svg" alt="">
+                    <p class="fw-bold mt-3">Вы отправляете <br> ссылку на нужный <br> товар</p>
+                </div>
+                <div class="col-12 col-sm-6 text-center text-lg-start col-lg-3  border-bottom">
+                    <p class="fw-bold mt-3">
+                        Мы <br> совершаем <br> покупку
+                    </p>
+                    <img class="img-fluid object_img" src="{% static 'img/_2.svg' %}" alt="">
+                </div>
+                <div class="col-12 col-sm-6 text-center text-lg-start col-lg-3 pt-lg-5 border-bottom">
+                    <img class="img-fluid mx-lg-5 mt-lg-5 object_img" src="{% static 'img/Frame_24_6.svg' %}"
+                         alt="">
+                    <p class="fw-bold mt-3">Получаем вашу <br> покупку в Армении</p>
+                </div>
+                <div class="col-12 col-sm-6 text-center text-lg-start col-lg-3 border-bottom">
+                    <p class="fw-bold ">Отправляем в Россию</p>
+                    <img class="img-fluid object_img" src="{% static 'img/Group_12.svg' %}" alt="">
+                    <img class="img-fluid object_img ms-5" src="{% static 'img/Frame_22_6.svg' %}" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="animate_num mt-100 text-white">
+        <div class="container animate_num_cont">
+            <div class="row align-items-center px-3 py-5 p-lg-5">
+                <div class="col-12 col-lg-7 p-lg-5">
+                    <div class="row ">
+                        <div class="col-4 text-center">
+                            <h2>{{order_statistics.sended}}</h2>
+                            <p>отправлено</p>
+                        </div>
+                        <div class="col-4 text-center border-end border-start">
+                            <h2>{{order_statistics.reviews}}</h2>
+                            <p>отзывов</p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <h2>{{order_statistics.on_market}} лет</h2>
+                            <p>на рынке</p>
+                        </div>
+                        <button class="aboutUs_btn mt-4"><a href="#form_for_order">Заказать доставку из США</a></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section class="costumer mt-100">
+        <div class="container">
+            <div class="my-100">
+                <div class="text-center">
+                    <h3 class="fw-bold first_color">ПОДРОБНАЯ ИНФОРМАЦИЯ:</h3>
+                    <img class="img-fluid" src="{% static 'img/advantage.svg' %}" alt="">
+                </div>
+                <div class="accordion accordion-flush accord" id="accordionFlushExample">
+                    <div class="accordion-item accord_item">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                Logistic — удобная и быстрая доставка посылок из США
+                            </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse"
+                             aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">Рассчитайте стоимость доставки из Америки к вам домой. <code>Мы
+                                получим ваши посылки на складе,</code> при необходимости объединим несколько доставок в
+                                одну и отправим их к вам надежно упакованными.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item accord_item">
+                        <h2 class="accordion-header" id="flush-headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                    aria-controls="flush-collapseTwo">
+                                Онлайн-калькулятор стоимости доставки товара
+                            </button>
+                        </h2>
+                        <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                             aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">Задайте необходимые параметры посылки и калькулятор расчитает
+                                приблизительную стоимость доставки вашей посылки из США.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row costumer_row px-2 py-4" id="form_for_order">
+                <div class="col-12 col-lg-6">
+                    <h5 class="gap-4"><b class="first_color">Регулярный прайс</b> <span
+                            class="ms-3">Постоянным клиентам</span></h5>
+                    <div class="logist_sign mt-4">
+                        <form method="post" class="send_order_form">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="">Страна</label>
+                                    <select name="country" class="form-select" id="" required>
+                                        <option value="Азербайджан">Азербайджан</option>
+                                        <option value="Армения">Армения</option>
+                                        <option value="Казахстан">Казахстан</option>
+                                        <option value="Кыргызстан">Кыргызстан</option>
+                                        <option value="Беларусь">Беларусь</option>
+                                        <option value="Молдова">Молдова</option>
+                                        <option value="Россия">Россия</option>
+                                        <option value="Таджикистан">Таджикистан</option>
+                                        <option value="Туркменистан">Туркменистан</option>
+                                        <option value="Узбекистан">Узбекистан</option>
+                                        <option value="Украина">Украина</option>
+                                    </select><br>
+                                    <label for="">Индекс</label>
+                                    <input required type="text" name="country_index" class="form-control" placeholder="Введите индекс"><br>
+                                    <label for="">Стоимость товара, $</label>
+                                    <input required type="text" name="price" class="form-control" placeholder="Введите цену"><br>
+                                    <label for="">Ширина, см</label>
+                                    <input required type="text" name="order_width" class="form-control" placeholder="Введите ширину"><br>
+                                </div>
+                                <div class="col-6">
+                                    <label for="">Город</label>
+                                    <input required type="text" name="city" class="form-control" placeholder="Город для доставки"><br>
+                                    <label for="">Вес посылки</label>
+                                    <div class="input-group">
+                                        <div class="row p-0">
+                                            <div class="col-8">
+                                                <input required type="text" name="order_weight" class="form-control" placeholder="Введите вес"
+                                                       aria-label="Recipient's username"
+                                                       aria-describedby="basic-addon2">
+
+                                            </div>
+                                            <div class="col-4 p-0">
+                                                <select required name="order_weight_opt" class="form-select" id="basic-addon2">
+                                                    <option value="кг">кг</option>
+                                                    <option value="фунты">фунты</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <label for="">Длина, см</label>
+                                    <input required type="text" name="order_lenght" class="form-control" placeholder="Введите длину"><br>
+                                    <label for="">Высота, см</label>
+                                    <input required type="text" name="order_height" class="form-control" placeholder="Введите высоту"><br>
+                                </div>
+                                {% if request.user.is_authenticated %}
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <button class="header_btn mt-3">Заказать</button>
+                                </div>
+                                {% else %}
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span onclick="signinModal();" class="header_btn mt-3">Заказать</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                    <div class="logist_type mt-5">
+                        {% for order_config in order_configs %}
+                        <button onclick="getOrderData();" class="logist_type_card p-3" data-order_id="{{ order_config.id }}">
+                            <h6 class="fw-bold">{{order_config.title}}</h6>
+                            <p class="fs-12">{{order_config.logistic_days}}</p>
+                            <h2 class="first_color fw-bold">${{order_config.price}}</h2>
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="product_about">
+                        <div class="product_about_header">
+                            <div class="border-bottom  d-flex justify-content-between align-items-end p-3">
+                                <h1 class="fw-bold">{{order_config.title}}</h1>
+                                <p>{{order_config.logistic_days}}</p>
+                            </div>
+                            <div class=" p-3 fw-semibold">
+                                <p>{{order_config.description|linebreaks}}</p>
+                            </div>
+                        </div>
+                        <div class="product_about_body border-bottom p-3">
+                            <ul class="row">
+                                <div class="col-12 col-sm-6">
+                                    <li class="fw-bold">Максимальный вес</li>
+                                    <p>{{order_config.max_weight}}</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <li class="fw-bold">Максимальный размер</li>
+                                    <p>{{order_config.max_size}}</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <li class="fw-bold">Частота отправлений</li>
+                                    <p>{{order_config.departure_frequency}}</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <li class="fw-bold">Объемный вес учитывается</li>
+                                    <p>{{order_config.volume_weight}}</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <li class="fw-bold">Средние сроки доставки</li>
+                                    <p>{{order_config.logistic_days}}</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <li class="fw-bold">Отслеживание посылки</li>
+                                    <p>{{order_config.traking_link}}</p>
+                                </div>
+                            </ul>
+
+                        </div>
+                        <div class="product_about_footer p-3">
+                            <p>{{order_config.exception}}</p>
+                            <div class="row mt-5">
+                                <div class="col-12 col-sm-6">
+                                    <p>Приемка посылки на складе</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <h6 class="fw-bold text-end">БЕСПЛАТНО</h6>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <p>Стандратная упаковка</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <h6 class="fw-bold text-end">БЕСПЛАТНО</h6>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <p>Объединение посылок</p>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <h6 class="fw-bold text-end">БЕСПЛАТНО</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="map mt-100">
+        <div class="container text-center">
+            <h3 class="fw-bold first_color">КАРТА ЛОГИСТИКИ</h3>
+            <img class="img-fluid" src="{% static 'img/1.webp' %}" alt="">
+        </div>
+    </section>
+    <section class="level_four mt-100">
+        <div class="container text-center text-lg-start">
+            <h3 class="first_color fw-bold text-center my-5">
+                4 простых шага для покупок в США
+            </h3>
+            <div class="row border-bottom py-4 align-items-center">
+                <div class="col-12 col-lg-7 level_four_col order-lg-1 order-2">
+                    <div class="d-block d-lg-flex gap-5 align-items-center">
+                        <div>
+                            <h1 class="display-1 first_color">01</h1>
+                        </div>
+                        <div>
+                            <h3 class="fw-bold">ВЫБИРАЕТЕ ТОВАР</h3>
+                            <p>в американском магазине, оплачиваете и указываете адрес склада Pochtoy.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-5 order-lg-2 order-1">
+                    <img src="{% static 'img/showcase.svg' %}" alt="">
+                </div>
+            </div>
+            <div class="row border-bottom py-4 align-items-center">
+                <div class="col-12 col-lg-5">
+                    <img src="{% static 'img/notebook.svg' %}" alt="">
+                </div>
+                <div class="col-12 col-lg-7 level_four_col">
+                    <div class="d-block d-lg-flex gap-5 align-items-center">
+                        <div>
+                            <h1 class="display-1 first_color">02</h1>
+                        </div>
+                        <div>
+                            <h3 class="fw-bold">ВЫБИРАЕТЕ ТОВАР</h3>
+                            <p>в американском магазине, оплачиваете и указываете адрес склада Pochtoy.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row border-bottom py-4 align-items-center">
+                <div class="col-12 col-lg-7 level_four_col order-lg-1 order-2">
+                    <div class="d-block d-lg-flex gap-5 align-items-center">
+                        <div>
+                            <h1 class="display-1 first_color">03</h1>
+                        </div>
+                        <div>
+                            <h3 class="fw-bold">ВЫБИРАЕТЕ ТОВАР</h3>
+                            <p>в американском магазине, оплачиваете и указываете адрес склада Pochtoy.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-5 order-lg-2 order-1">
+                    <img src="{% static 'img/plane.svg' %}" alt="">
+                </div>
+            </div>
+            <div class="row border-bottom py-4 align-items-center">
+                <div class="col-12 col-lg-5">
+                    <img src="{% static 'img/dron.svg' %}" alt="">
+                </div>
+                <div class="col-12 col-lg-7 level_four_col">
+                    <div class="d-block d-lg-flex gap-5 align-items-center">
+                        <div>
+                            <h1 class="display-1 first_color">04</h1>
+                        </div>
+                        <div>
+                            <h3 class="fw-bold">ВЫБИРАЕТЕ ТОВАР</h3>
+                            <p>в американском магазине, оплачиваете и указываете адрес склада Pochtoy.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center my-4">
+                <p>Не хотите разбираться самостоятельно, наши мастера <br> шопинга с радостью купят все товары за вас.
+                </p>
+                <button class="header_btn mt-3"><a href="#form_for_order">Заказать доставку из США</a></button>
+            </div>
+        </div>
+    </section>
+    <section class="costumer_coment mt-100">
+        <div class="container">
+            <h3 class="fw-bold first_color text-center">Отзывы наших клиентов</h3>
+            <p class="text-center">
+                За последний год десятки тысяч наших клиентов заказали товары из США и оставили <br> 20 899 отзывов
+            </p>
+            <div class="row">
+                {% for review in reviews %}
+                <div class="col-12 col-md-6 mt-4">
+                    <div class="costumer_coment_card p-4">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h5 class="fw-bold second_color">{{review.name}}</h5>
+                            <div class="stars_rate" data-stars="{{review.starts}}">
+
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="fs-14">
+                                <b>Дата:</b>
+                                <span class="text-muted">{{review.date}}</span>
+                            </p>
+                            <p class="fs-14">
+                                <b>Номер посылки:</b>
+                                <span class="text-muted">PCT000000557666</span>
+                            </p>
+                        </div>
+                        <div>
+                            <p class="fs-14">
+                                <b>Город:</b>
+                                <span class="text-muted">{{review.city}}</span>
+                            </p>
+                        </div>
+                        <div>
+                            <p class="fs-13 text-muted">{{review.text}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <center>
+                    <button class="header_btn mt-5"><a href="#form_for_order">Заказать доставку из США</a></button>
+                </center>
+            </div>
+        </div>
+    </section>
+    <section class="last_cards mt-100">
+        <div class="container">
+            <h3 class="fw-bold text-center first_color mb-4">
+                Ваш личный адрес в США для покупок
+            </h3>
+            <div class="row mt-5">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="text-center">
+                        <img class="card_header" src="{% static 'img/shild.svg' %}" alt="">
+                        <div class="card_body second_color mt-4">
+                            <h6>
+                                Надежный посредник
+                            </h6>
+                            <h6>доставки из США</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="text-center">
+                        <img class="card_header" src="{% static 'img/mark.svg' %}" alt="">
+                        <div class="card_body second_color mt-4">
+                            <h6>
+                                Бесплатный виртуальный
+                            </h6>
+                            <h6>адрес в США</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="text-center">
+                        <img class="card_header" src="{% static 'img/plane2.svg' %}" alt="">
+                        <div class="card_body second_color mt-4">
+                            <h6>
+                                Доставка посылок по миру
+                            </h6>
+                            <h6>за несколько дней</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="text-center">
+                        <img class="card_header" src="{% static 'img/bag.svg' %}" alt="">
+                        <div class="card_body second_color mt-4">
+                            <h6>
+                                Покупки в топовых
+                            </h6>
+                            <h6>американских магазинах</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="footer mt-100 border-top py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <p class="fw-semibold">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Esse labore iste
+                        reprehenderit praesentium.</p>
+                </div>
+                <div class="col-12 col-md-4">
+                    <p class="fw-semibold">Устанавливайте бота Телеграм</p>
+                    <a href="{{social_links.tg_link}}" target="_blank">
+                        <img src="{% static 'img/social-tg.svg' %}" alt="">
+                    </a>
+                </div>
+                <div class="col-12 col-md-4">
+                    <p class="fw-semibold">Подписывайтесь на новости о распродажах</p>
+                    <div class="d-flex gap-4">
+                        <a href="{{social_links.tg_link}}" target="_blank">
+                            <img src="{% static 'img/social-in.svg' %}" alt="">
+                        </a>
+                        <a href="{{social_links.vk_link}}" target="_blank">
+                            <img src="{% static 'img/social-vk.svg' %}" alt="">
+                        </a>
+                        <a href="{{social_links.inst_link}}" target="_blank">
+                            <img src="{% static 'img/social-tg.svg' %}" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+{% endblock %}
