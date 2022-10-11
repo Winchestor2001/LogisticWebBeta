@@ -4,6 +4,7 @@ let signup_modal = document.querySelector(".signup_form");
 let right_toper_btn = document.querySelector(".right_toper_btn");
 let stars_rate = document.querySelectorAll(".stars_rate");
 let order_success_form = document.querySelector(".order_success_form");
+let header_menu = document.querySelector(".header_menu");
 
 function starsRate() {
   stars_rate.forEach((item) => {
@@ -42,10 +43,16 @@ window.onscroll = () => {
   } else {
     right_toper_btn.classList.remove("active3");
   }
+  if (window.pageYOffset > 50) {
+    header_menu.style.position = 'fixed';
+    header_menu.style.backdropFilter = 'blur(15px)';
+  } else {
+    header_menu.style.position = 'sticky';
+    header_menu.style.backdropFilter = 'none';
+  }
 };
 
 starsRate();
-
 
 
 

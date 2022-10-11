@@ -2,19 +2,24 @@ import requests
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
-from config.settings import TG_BOT_TOKEN, TG_GROUP_ID
 from .forms import MyUserCreationForm
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+
 # @login_required(login_url='home')
 
 
 def registration_modal(request):
-    user = User.objects.create_user(username=request.GET['username'], tg_username=request.GET['tg_username'], password=request.GET['password1'])
-    login(request, user)
-    return redirect('home')
+    user = User.objects.filter(username=request.GET['username'])
+    if len(user) != 0:
+        return HttpResponse('yes_user')
+    else:
+        user = User.objects.create_user(username=request.GET['username'], tg_username=request.GET['tg_username'],
+                                        password=request.GET['password1'])
+        login(request, user)
+        return HttpResponse('true')
 
 
 def auth_modal(request):
@@ -68,6 +73,14 @@ def get_and_send_ti_admin(request):
     order_weight_opt = request.GET.get('order_weight_opt')
     order_lenght = request.GET.get('order_lenght')
     order_height = request.GET.get('order_height')
+
+    social_links = SocialLinks.objects.all()
+    TG_BOT_TOKEN = None
+    TG_GROUP_ID = None
+    for link in social_links:
+        TG_BOT_TOKEN = link.tg_bot_token
+        TG_GROUP_ID = link.tg_admin_group_id
+
     context = f"Username: {user.username}\n" \
               f"TG-AKK: {'ADMIN' if len(user.tg_username) == 0 else '@' + user.tg_username}\n\n" \
               f"Страна: {country}\n" \
@@ -78,9 +91,10 @@ def get_and_send_ti_admin(request):
               f"Вес посылки: {order_weight}{order_weight_opt}\n" \
               f"Длина, см: {order_lenght}\n" \
               f"Высота, см: {order_height}\n"
+    Orders.objects.create(user=request.user, order_context=context).save()
     requests.post(f'https://api.telegram.org/bot{TG_BOT_TOKEN}/sendMessage?chat_id={TG_GROUP_ID}&text={context}')
 
-    return HttpResponse('True')
+    return HttpResponse('true')
 
 
 def get_order_data(request):
@@ -96,6 +110,5 @@ def get_order_data(request):
         'traking_link': ocd['traking_link'],
         'departure_frequency': ocd['departure_frequency'],
         'exception': ocd['exception'],
-        }
+    }
     return JsonResponse(data, safe=False)
-

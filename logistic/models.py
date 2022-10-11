@@ -18,6 +18,11 @@ class Orders(models.Model):
     def __str__(self):
         return '{} - {}'.format(self.user, self.order_context)
 
+    class Meta:
+        ordering = ["created"]
+        verbose_name = "Заявка"
+        verbose_name_plural = "Заявки"
+
 
 class OrdersConfig(models.Model):
     title = models.CharField(max_length=255)
@@ -34,18 +39,33 @@ class OrdersConfig(models.Model):
     def __str__(self):
         return '{}'.format(self.title)
 
+    class Meta:
+        ordering = ["title"]
+        verbose_name = "Продукция"
+        verbose_name_plural = "Продукции"
+
 
 class SocialLinks(models.Model):
     tg_link = models.CharField(max_length=100, null=True, blank=True)
     vk_link = models.CharField(max_length=100, null=True, blank=True)
     inst_link = models.CharField(max_length=100, null=True, blank=True)
     phone_number = models.CharField(max_length=50, null=True, blank=True)
+    tg_bot_token = models.CharField(max_length=50, null=True, blank=True)
+    tg_admin_group_id = models.CharField(max_length=50, null=True, blank=True, help_text='ID группы должен начинаться с -100')
+
+    class Meta:
+        verbose_name = "Соц.сеть"
+        verbose_name_plural = "Соц.сети"
 
 
 class OrderStatistics(models.Model):
     sended = models.IntegerField(default=0)
     reviews = models.IntegerField(default=0)
     on_market = models.IntegerField(default=1)
+
+    class Meta:
+        verbose_name = "Статистика сайта"
+        verbose_name_plural = "Статистики сайта"
 
 
 class Reviews(models.Model):
@@ -57,3 +77,8 @@ class Reviews(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.name, self.starts)
+
+    class Meta:
+        ordering = ["date"]
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"

@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&amp;display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -6,8 +7,9 @@
   font-family: "Montserrat", sans-serif;
 }
 .header_menu {
-  box-shadow: 0 5px 20px #eee;
   padding: 10px 0;
+  z-index: 100000;
+  width: 100%;
 }
 .header_menu li a {
   color: #3a78bc;
@@ -86,6 +88,7 @@
 .header_btn a{
     text-decoration: none;
     color: #fff;
+    display: block;
 }
 .header_btn a:hover{
     color: #fff;
@@ -300,7 +303,7 @@
   opacity: 1;
 }
 .signup_form .form, .signin_form .form{
-  width: 500px;
+  width: 100%;
   padding: 20px 50px;
 }
 .signup_form .form .close, .signin_form .form .close, .order_success_form .form .close{
@@ -326,7 +329,7 @@
   outline: none;
 }
 .order_success_form .form{
-  width: 500px;
+  width: 100%;
   padding: 15px 50px 30px 50px;
 }
 .order_success_form .form .text h2{
@@ -429,6 +432,7 @@
   .header_h1 {
     font-size: 50px;
   }
+
   .header_content p {
     font-size: 14px;
   }
@@ -446,6 +450,14 @@
 @media screen and (max-width: 576px) {
   .header_h1::before {
     display: none;
+  }
+  .signin_form,
+  .signup_form,
+  .order_success_form,
+  .order_success_form .form,
+  .signup_form .form, .signin_form .form
+  {
+    width: 100%;
   }
   .pl-50 {
     padding-left: 20px !important;

@@ -61,7 +61,8 @@
     <script>
       let form = document.querySelector(".signup_form .form form");
       let form2 = document.querySelector(".signin_form .form form");
-      let form_error = document.querySelector(".form .error");
+      let form_error_pass = document.querySelector(".form .error_pass");
+      let form_error_user = document.querySelector(".form .error_user");
       let form2_error1 = document.querySelector(".signin_form .form .error1");
       let form2_error2 = document.querySelector(".signin_form .form .error2");
       let send_order_form = document.querySelector(".send_order_form");
@@ -73,10 +74,9 @@
         pass1 = form.querySelector("input[name=password1]").value;
         pass2 = form.querySelector("input[name=password2]").value;
         if (pass1 != pass2) {
-          form_error.classList.remove("d-none");
+          form_error_pass.classList.remove("d-none");
         } else {
-          form_error.classList.add("d-none");
-          console.log(username, tg_username, pass1, pass2);
+          form_error_pass.classList.add("d-none");
           items = {
             username: username,
             tg_username: tg_username,
@@ -87,7 +87,11 @@
             type: "get",
             data: items,
             success: function (data) {
-              console.log("true");
+              if (data == 'true') {
+                form.reset();
+              } else {
+                form_error_user.classList.remove("d-none");
+              }
             },
           });
         }
@@ -154,7 +158,10 @@
           type: "get",
           data: items,
           success: function (data) {
-            console.log(data);
+            if (data == 'true') {
+              send_order_form.reset();
+              orderSuccessModal();
+            }
           },
         });
       };
